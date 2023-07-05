@@ -1,5 +1,3 @@
-# MySQL2ElasticFlow
-
 # A Powerful Alliance in Data Integration: Elasticsearch, Logstash, MySQL, and Spring
 
 This repository contains all the necessary files for setting up a data integration system using Elasticsearch, Logstash, MySQL, and Spring.
@@ -32,9 +30,20 @@ To test this structure, we build and run the app with docker-compose using the c
 
 ```bash
 docker-compose -f app.yml up -d
+```
 
 After the system is set up and ready, we check the logs. All three services must be ready. We then check the Logstash log, it should appear as follows.
 
-Searching Data
+## Searching Data
+
 Once everything is set up, it's time to search. Open Postman and send a query like this:
+
+```bash
+GET localhost:9200/product/_search
 ```
+
+This query will return a response like this. The details are in the code below.
+
+## Contact Information
+
+For more information, feel free to reach out to me. Your feedback is always welcome.
