@@ -1,0 +1,47 @@
+version: "3.7"
+
+services:
+  elasticsearch:
+    image: elasticsearch:8.8.1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
+      - xpack.security.enabled=false
+    networks:
+      - search
+
+  logstash:
+    image: logstash:8.6.1
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./product/pipeline/:/usr/share/logstash/pipeline/
+      - ./product/config/pipeline.yml:/usr/share/logstash/config/pipeline.yml
+      - ./mysqlConnector/mysql-connector-java-8.0.22.jar:/home/mysql-connector-java-8.0.22.jar
+    environment:
+      - ELASTIC_HOST=elasticsearch
+      - MYSQL_HOST=mysql
+    networks:
+      - search
+
+  mysql:
+    image: mysql:8
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: product
+      MYSQL_TCP_PORT: 3306
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    volumes:
+      - ./database/product.sql:/docker-entrypoint-initdb.d/product.sql:ro
+    ports:
+      - "3306:3306"
+    networks:
+      - search
+
+networks:
+  search:
+    driver: bridge
