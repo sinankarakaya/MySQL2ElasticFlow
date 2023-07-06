@@ -40,9 +40,60 @@ Once everything is set up, it's time to search. Open Postman and send a query li
 
 ```bash
 GET localhost:9200/product/_search
+
+{
+    "query":{
+        "bool":{
+            "must":[
+                {"multi_match":{ 
+                    "query":"asu",  
+                    "fields": ["productName","productCode"],
+                    "fuzziness":"auto"   
+                 }
+                }
+            ]
+        }
+    }
+}
 ```
 
 This query will return a response like this. The details are in the code below.
+
+```bash
+{
+    "took": 114,
+    "timed_out": false,
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 1,
+            "relation": "eq"
+        },
+        "max_score": 0.87417156,
+        "hits": [
+            {
+                "_index": "product",
+                "_id": "2",
+                "_score": 0.87417156,
+                "_source": {
+                    "lastTransaction": "2023-07-04 01:00:00",
+                    "productName": "asus",
+                    "productCode": "asus",
+                    "active": false,
+                    "updatedAt": "2023-07-04T01:00:00.000Z",
+                    "productStatusFK": "active",
+                    "productPK": 2
+                }
+            }
+        ]
+    }
+}
+```
 
 ## Contact Information
 
