@@ -22,8 +22,6 @@ Before adding this code, I had created a Logstash configuration file named "sear
 
 I have prepared an app.yml for docker-compose. This includes 3 services: MySQL, logstash, and Elasticsearch. All these three services are connected on the same network. This allows them to communicate with each other by their respective service names. I have also created a pipeline for Logstash and described it in a file.
 
-All files have been added to this Github repository. For detailed usage, check the code within this repository.
-
 ## Testing the Setup
 
 To test this structure, we build and run the app with docker-compose using the command:
